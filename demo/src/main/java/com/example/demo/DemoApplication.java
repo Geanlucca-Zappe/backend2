@@ -1,47 +1,33 @@
 package com.example.demo;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.example.demo.models.BlocoDeFerroEntity;
+import com.example.demo.models.BlocoEntity;
+import com.example.demo.models.ItemEntity;
+import com.example.demo.models.JogadorEntity;
+
+@SpringBootApplication
 public class DemoApplication {
-     public static void main(String[] args) throws Exception{
-        String listaDeNomes = retornaListaDaURI("https://venson.net.br/resources/data/nomes.txt");
-        String nome = retornaIndiceAleatorio(listaDeNomes);
 
-        String listaDeSobrenomes = retornaListaDaURI("https://venson.net.br/resources/data/sobrenomes.txt");
-        String sobrenome = retornaIndiceAleatorio(listaDeSobrenomes);
+	public static void main(String[] args) {
+		JogadorEntity jogador1 = new JogadorEntity();
+		JogadorEntity jogador2 = new JogadorEntity();
+		BlocoEntity blocoEntity = new BlocoEntity();
+		BlocoDeFerroEntity blocoDeFerroEntity = new BlocoDeFerroEntity("Minerio de Ferro");
+		ItemEntity drop = blocoEntity.destruir();
+		ItemEntity drop1 = blocoDeFerroEntity.destruir();
 
-        String listaDeClubes = retornaListaDaURI("https://venson.net.br/resources/data/clubes.txt");
-        String clube = retornaIndiceAleatorio(listaDeClubes);
+		if(drop1 == null){
+			System.out.println("Não dropou");
 
-        String listaDeposicoes = retornaListaDaURI("https://venson.net.br/resources/data/posicoes.txt");
-        String posicao = retornaIndiceAleatorio(listaDeposicoes);
+		} else {
+			System.out.println(drop1.getNome());
+		}
+		jogador1.mover(10, 15);
+		jogador2.mover(98, 178);
+		System.out.println(jogador1.getPosicao());
+		System.out.println(jogador2.getPosicao());
+	}
 
-        int idades = geraNumeroAleatorio(17,40);
-
-        String mensagem = nome +" "+ sobrenome + " é um futebolista brasileiro de " + idades + " anos que atua como " + posicao + ". Atualmente defende o " + clube + ".";
-        System.out.println(mensagem);
-
-    }
-    public static int geraNumeroAleatorio(int menor, int maior) {
-        int diference = maior - menor;
-        int aleatorio = (int) Math.floor(Math.random() * diference);
-        return aleatorio + menor;
-    }
-
-    public static String retornaListaDaURI(String minhaUri) throws Exception{
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(minhaUri)).build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        String lista = response.body();
-        return lista;
-    }
-
-    public static String retornaIndiceAleatorio(String stringao) {
-        String[] listaDeNomes = stringao.split("\n");
-        int indiceAleatorio = (int) Math.floor(Math.random()* listaDeNomes.length);
-        return listaDeNomes[indiceAleatorio];
-    }
 }
