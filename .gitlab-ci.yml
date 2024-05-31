@@ -1,0 +1,11 @@
+variables:
+  STUDENT_ID: "202221401" 
+  STUDENT_NAME: "Geanlucca Zappe Ubialli" 
+stages:
+  - validate
+
+validate:
+  stage: validate
+  image: registry.gitlab.com/professor-rvenson/backend-n1-validate
+  script:
+    - validate
