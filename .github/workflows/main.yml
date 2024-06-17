@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      STUDENT_ID: "202221401"
+      STUDENT_NAME: "Geanlucca Zappe Ubialli"
+    container:
+      image: registry.gitlab.com/professor-rvenson/backend-n1-validate
+    steps:
+    - uses: actions/checkout@v2
+    - name: Validate
+      run: validate
